@@ -1,0 +1,7 @@
+.build/
+build/
+*.dmg
+*.pkg
+.DS_Store
+.swiftpm/
+Package.resolved
