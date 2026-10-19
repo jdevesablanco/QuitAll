@@ -19,7 +19,7 @@ End of the day, switching to study mode, about to share your screen: you want a 
 
 ```bash
 brew install jdevesablanco/tap/quitall
-quitall install        # copies QuitAll.app to ~/Applications and opens the first-run setup
+quitall install        # copies QuitAll.app to /Applications and opens the first-run setup
 ```
 
 Or the prebuilt app: `brew install --cask jdevesablanco/tap/quitall`.

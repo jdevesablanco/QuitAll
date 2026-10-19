@@ -19,7 +19,7 @@ Al acabar el día, al ponerte a estudiar o antes de compartir pantalla quieres u
 
 ```bash
 brew install jdevesablanco/tap/quitall
-quitall install        # copia QuitAll.app a ~/Applications y abre la configuración inicial
+quitall install        # copia QuitAll.app a /Applications y abre la configuración inicial
 ```
 
 O la app ya compilada: `brew install --cask jdevesablanco/tap/quitall`.

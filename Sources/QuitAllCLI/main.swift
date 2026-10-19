@@ -16,7 +16,7 @@ USO
   quitall profiles                 lista los perfiles (* = activo)
   quitall apps                     lista las apps instaladas con su categoría y regla
   quitall settings [--reset]       muestra (o restablece) los ajustes
-  quitall install                  copia QuitAll.app a ~/Applications y abre la configuración inicial
+  quitall install                  copia QuitAll.app a /Applications y abre la configuración inicial
   quitall selftest                 prueba de humo (no cierra nada)
   quitall --version
 
@@ -160,7 +160,15 @@ do {
         let u = URL(fileURLWithPath: CommandLine.arguments[0]).resolvingSymlinksInPath()
         guard let r = u.path.range(of: ".app/") else { fail(tr("No encuentro QuitAll.app junto a este ejecutable (¿compilaste solo la CLI?)", "Can't find QuitAll.app next to this binary (did you build only the CLI?)")) }
         let appPath = String(u.path[..<r.lowerBound]) + ".app"
-        let dest = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Applications/QuitAll.app")
+        // En /Applications: en macOS 27, Bartender no consigue colocar el icono de la barra de menús de las apps que se
+        // ejecutan desde ~/Applications. Solo si /Applications no se puede escribir se usa ~/Applications.
+        let fm = FileManager.default
+        let userCopy = fm.homeDirectoryForCurrentUser.appendingPathComponent("Applications/QuitAll.app")
+        let dest = fm.isWritableFile(atPath: "/Applications") ? URL(fileURLWithPath: "/Applications/QuitAll.app") : userCopy
+        if dest.path == userCopy.path {
+            print(tr("Aviso: no se puede escribir en /Applications; se instala en ~/Applications (Bartender podría no mostrar el icono).",
+                     "Note: /Applications isn't writable; installing into ~/Applications (Bartender may not show the icon)."))
+        }
         if appPath != dest.path {
             try FileManager.default.createDirectory(at: dest.deletingLastPathComponent(), withIntermediateDirectories: true)
             // Si ya estaba abierta, la cerramos antes de reemplazarla.
@@ -170,6 +178,11 @@ do {
             try FileManager.default.copyItem(atPath: appPath, toPath: dest.path)
         }
         let lsr = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+        // La copia antigua en ~/Applications (instalaciones anteriores) sobra: se quita para que no haya dos.
+        if dest.path != userCopy.path, fm.fileExists(atPath: userCopy.path) {
+            let p = Process(); p.executableURL = URL(fileURLWithPath: lsr); p.arguments = ["-u", userCopy.path]; try? p.run(); p.waitUntilExit()
+            try? fm.removeItem(at: userCopy)
+        }
         for (exe, a) in [(lsr, ["-f", dest.path]), ("/usr/bin/open", [dest.path])] {
             let p = Process(); p.executableURL = URL(fileURLWithPath: exe); p.arguments = a; try p.run(); p.waitUntilExit()
         }

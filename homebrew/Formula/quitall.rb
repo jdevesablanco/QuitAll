@@ -20,7 +20,7 @@ class Quitall < Formula
 
   def caveats
     <<~EOS
-      QuitAll.app has been built locally. To copy it to ~/Applications and open it (first-run setup):
+      QuitAll.app has been built locally. To copy it to /Applications and open it (first-run setup):
         quitall install
       Run `quitall install` again after each `brew upgrade quitall`.
     EOS
