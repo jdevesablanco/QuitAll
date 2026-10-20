@@ -1,7 +1,7 @@
 import AppKit
 import QuitAllCore
 
-let version = "1.0.0"
+let version = "1.0.1"
 let usage = """
 quitall — cierra todas las apps abiertas menos las que elijas.
 

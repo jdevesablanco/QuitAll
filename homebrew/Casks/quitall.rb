@@ -1,5 +1,5 @@
 cask "quitall" do
-  version "1.0.0"
+  version "1.0.1"
   sha256 "3765163f623ca85deaddf0085282a59dc4ecc301d865387e6f4f26b91423f1d4"
 
   url "https://github.com/jdevesablanco/QuitAll/releases/download/v#{version}/QuitAll-#{version}.dmg"

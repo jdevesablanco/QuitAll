@@ -12,7 +12,7 @@ final class Local<T>: ObservableObject {
 }
 
 enum AppInfo {
-    static let version = "1.0.0"
+    static let version = "1.0.1"
     static let repoURL = "https://github.com/jdevesablanco/QuitAll"
 }
 
