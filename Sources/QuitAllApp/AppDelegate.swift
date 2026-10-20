@@ -37,6 +37,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func applicationDidFinishLaunching(_ n: Notification) {
         PackCatalog.isSpanish = { Lang.isSpanish }
         PackCatalog.accent = .brand
+        if let dir = ProcessInfo.processInfo.environment["QUITALL_SCREENSHOTS"] { Snapshot.screenshots(model: model, dir: dir); return }
         if let dir = ProcessInfo.processInfo.environment["QUITALL_SNAPSHOT"] {
             Snapshot.run(model: model, controller: controller, dir: dir); NSApp.terminate(nil); return
         }

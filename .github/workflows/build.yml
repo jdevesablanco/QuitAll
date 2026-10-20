@@ -25,6 +25,9 @@ jobs:
           VERSION="$V" UNIVERSAL=1 Scripts/build-app.sh
           VERSION="$V" Scripts/make-dmg.sh
           VERSION="$V" Scripts/make-pkg.sh
+          # Nombres sin versión: los enlaces /releases/latest/download/... del README no caducan
+          cp build/QuitAll-$V.dmg build/QuitAll.dmg
+          cp build/QuitAll-$V.pkg build/QuitAll.pkg
 
       - uses: actions/upload-artifact@v4
         with:

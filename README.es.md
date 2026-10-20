@@ -15,26 +15,27 @@ Al acabar el día, al ponerte a estudiar o antes de compartir pantalla quieres u
 
 ## Instalación
 
-**Homebrew** (compila en tu Mac con las Command Line Tools: sin avisos de Gatekeeper):
+| Método | Ideal para | |
+|---|---|---|
+| **[Instalador `.pkg`](https://github.com/jdevesablanco/QuitAll/releases/latest/download/QuitAll.pkg)** | Lo más fácil: doble clic, sin Terminal | Descarga directa |
+| **[Imagen de disco `.dmg`](https://github.com/jdevesablanco/QuitAll/releases/latest/download/QuitAll.dmg)** | Arrastrar la app a *Aplicaciones* | Descarga directa |
+| **Homebrew** | Quien usa Terminal | `brew install --cask jdevesablanco/tap/quitall` |
+| **Homebrew (desde el código)** | Sin aviso de Gatekeeper | `brew install jdevesablanco/tap/quitall && quitall install` |
+| **Desde el código** | Desarrolladores | `git clone … && Scripts/build-app.sh` |
 
-```bash
-brew install jdevesablanco/tap/quitall
-quitall install        # copia QuitAll.app a /Applications y abre la configuración inicial
-```
-
-O la app ya compilada: `brew install --cask jdevesablanco/tap/quitall`.
-
-**Instalador (.pkg)** — sin Terminal: descarga `QuitAll-x.y.z.pkg` de [Releases](https://github.com/jdevesablanco/QuitAll/releases), haz **clic derecho → Abrir** (solo la primera vez) y sigue los pasos. Instala en *Aplicaciones* y abre la configuración inicial.
-
-**DMG**: descarga `QuitAll-x.y.z.dmg` de [Releases](https://github.com/jdevesablanco/QuitAll/releases) y arrastra la app a *Aplicaciones*. La primera vez, **clic derecho en QuitAll → Abrir**.
-
-QuitAll está firmada *ad-hoc* y **no está notarizada** por Apple (hace falta una cuenta de Apple Developer de pago; ver [docs/NOTARIZATION.md](docs/NOTARIZATION.md)). Por eso macOS pide confirmación la primera vez: clic derecho → *Abrir*, o *Ajustes del Sistema → Privacidad y seguridad → Abrir igualmente*. O sin diálogo: `xattr -dr com.apple.quarantine /Applications/QuitAll.app`.
-
-**Desde el código**: `git clone https://github.com/jdevesablanco/QuitAll && cd QuitAll && Scripts/build-app.sh && open build/QuitAll.app`
+Al hacer clic en un enlace de descarga empieza a bajarse al momento (última versión). Todas las versiones: [Releases](https://github.com/jdevesablanco/QuitAll/releases).
+La app está firmada *ad-hoc* y no notarizada por Apple, así que la primera vez: *Ajustes del Sistema → Privacidad y seguridad → Abrir igualmente* (en macOS 13–14 también vale clic derecho → *Abrir*), o `xattr -dr com.apple.quarantine /Applications/QuitAll.app` (ver [docs/NOTARIZATION.md](docs/NOTARIZATION.md)).
+Ábrela una vez para hacer la configuración inicial.
 
 ## Primer uso
 
 Tres pasos cortos (selector ES/EN arriba a la derecha): qué hace QuitAll → qué apps no se cierran (por categorías) → cómo quieres lanzarlo (atajo, menú Servicios, abrir al iniciar sesión). La última pantalla muestra las otras apps del pack.
+
+## Capturas
+
+| 1 · Qué hace | 2 · Qué no se cierra | 3 · Cómo lanzarlo | Todo listo |
+|:--:|:--:|:--:|:--:|
+| <img src="docs/images/onb-es-1.png" alt="1 · Qué hace"> | <img src="docs/images/onb-es-2.png" alt="2 · Qué no se cierra"> | <img src="docs/images/onb-es-3.png" alt="3 · Cómo lanzarlo"> | <img src="docs/images/onb-es-done.png" alt="Todo listo"> |
 
 ## Formas de lanzar «Cerrar todo»
 

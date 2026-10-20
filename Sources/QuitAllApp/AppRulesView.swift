@@ -19,7 +19,11 @@ final class AppList: ObservableObject {
     }
 
     /// Carga síncrona (modo instantánea, sin run loop).
-    func loadNow() { apps = AppCatalog.all(); loaded = true; refreshRunning() }
+    func loadNow() {
+        apps = AppCatalog.all(); loaded = true; refreshRunning()
+        // Capturas para el README: solo apps de Apple y ninguna marcada como abierta (no enseñar las apps de quien las genera).
+        if Snapshot.privacy { apps = apps.filter { $0.url.path.hasPrefix("/System/Applications") }; running = [] }
+    }
 
     func refreshRunning() { running = Set(Running.regularApps().compactMap(\.bundleIdentifier)) }
 }
@@ -31,7 +35,7 @@ struct AppRulesView: View {
     var compact = false
     @StateObject private var query = Local("")
     @StateObject private var onlyRunning = Local(false)
-    @StateObject private var expanded = Local<Set<AppCategory>>(Snapshot.active ? [.music] : [])
+    @StateObject private var expanded = Local<Set<AppCategory>>(Snapshot.active || Snapshot.privacy ? [.music] : [])
 
     private func visible(_ e: AppEntry) -> Bool {
         if onlyRunning.v && !list.running.contains(e.bundleID) { return false }

@@ -96,8 +96,8 @@ struct OnboardingView: View {
             menuBarMock
             HStack(alignment: .top, spacing: 10) {
                 actionCard(.quit, tr("Se cierran con educación, como con ⌘Q: cada app te pregunta si guardar.", "Quit politely, like ⌘Q: each app asks you to save."))
-                actionCard(.hide, tr("Siguen abiertas pero desaparecen de la vista.", "Stay open but get out of sight."))
-                actionCard(.keep, tr("No se tocan: la música sigue sonando.", "Untouched: your music keeps playing."))
+                actionCard(.hide, tr("Siguen abiertas (la música sigue sonando) pero desaparecen de la vista.", "Stay open (music keeps playing) but get out of sight."))
+                actionCard(.keep, tr("No se tocan: se quedan tal cual, a la vista.", "Untouched: they stay exactly as they are."))
             }.fixedSize(horizontal: false, vertical: true)
             Label {
                 Text(tr("Si alguna no se cierra en unos segundos, te digo cuál y puedes forzarla. Y con «Deshacer» se reabre todo lo que se cerró.",
