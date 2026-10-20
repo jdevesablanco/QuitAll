@@ -12,6 +12,10 @@ public struct PlanItem: Identifiable, Hashable, Sendable {
     public var id: pid_t { pid }
 
     public var action: RuleAction { protection == nil ? rule : .keep }
+
+    public init(pid: pid_t, bundleID: String, name: String, url: URL?, rule: RuleAction, protection: Protection.Reason?) {
+        self.pid = pid; self.bundleID = bundleID; self.name = name; self.url = url; self.rule = rule; self.protection = protection
+    }
 }
 
 public enum Planner {
@@ -108,7 +112,15 @@ public final class QuitRun {
 
     /// Pista honesta de por qué sigue abierta: si tiene ventanas en pantalla, casi seguro está preguntando si guardar.
     /// macOS no expone «tiene cambios sin guardar» de otras apps, así que no se puede saber con certeza.
+    /// Solo para capturas de pantalla: fija el resultado sin tocar ninguna app.
+    public func simulate(quit: [PlanItem], hidden: [PlanItem], pending: [PlanItem], waiting: Set<pid_t>) {
+        self.quit = quit; self.hidden = hidden; self.pending = pending; simulatedWaiting = waiting
+        started = Date().addingTimeInterval(-timeout)
+    }
+    private var simulatedWaiting: Set<pid_t>?
+
     public func reason(_ pid: pid_t) -> StuckReason {
+        if let w = simulatedWaiting { return w.contains(pid) ? .waitingForUser : .notResponding }
         let wins = (CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]]) ?? []
         let has = wins.contains { ($0[kCGWindowOwnerPID as String] as? pid_t) == pid && ($0[kCGWindowLayer as String] as? Int) == 0 }
         let active = apps[pid]?.isActive ?? false

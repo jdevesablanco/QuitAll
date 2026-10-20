@@ -14,6 +14,9 @@ final class QuitController: ObservableObject {
 
     var isBusy: Bool { phase == .quitting || phase == .overdue }
 
+    /// Solo para capturas de pantalla.
+    func preview(_ r: QuitRun, _ p: Phase) { run = r; phase = p }
+
     func start(profile: Profile, timeout: Double) {
         timer?.invalidate()
         let r = QuitRun(plan: Planner.plan(profile: profile), timeout: timeout)

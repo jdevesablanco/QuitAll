@@ -18,7 +18,7 @@ struct PopoverView: View {
         _tick = ObservedObject(wrappedValue: refresh)
     }
 
-    private var plan: [PlanItem] { _ = tick.v; return Planner.plan(profile: model.s.activeProfile) }
+    private var plan: [PlanItem] { _ = tick.v; return Snapshot.fakePlan(model.s.activeProfile) ?? Planner.plan(profile: model.s.activeProfile) }
 
     var body: some View {
         let plan = self.plan

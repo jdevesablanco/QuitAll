@@ -37,6 +37,12 @@ Three short steps (ES/EN switch at the top right): what QuitAll does → which a
 |:--:|:--:|:--:|:--:|
 | <img src="docs/images/onb-en-1.png" alt="1 · What it does"> | <img src="docs/images/onb-en-2.png" alt="2 · What stays open"> | <img src="docs/images/onb-en-3.png" alt="3 · How to run it"> | <img src="docs/images/onb-en-done.png" alt="All set"> |
 
+| Menu bar | Choose what quits, hides or stays | Opened from Spotlight / Raycast | An app that won't quit |
+|:--:|:--:|:--:|:--:|
+| <img src="docs/images/menu-en.png" alt="Menu bar"> | <img src="docs/images/apps-en.png" alt="Choose what quits, hides or stays"> | <img src="docs/images/run-en.png" alt="Opened from Spotlight or Raycast: done, with Undo"> | <img src="docs/images/stuck-en.png" alt="Apps still open: show, force quit or leave open"> |
+
+Type “QuitAll” in Spotlight, Alfred or Raycast and press ↩: everything quits and this notice shows what happened, with **Undo**.
+
 ## Ways to run “Quit all”
 
 | Where | How |

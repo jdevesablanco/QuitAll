@@ -37,6 +37,12 @@ Tres pasos cortos (selector ES/EN arriba a la derecha): qué hace QuitAll → qu
 |:--:|:--:|:--:|:--:|
 | <img src="docs/images/onb-es-1.png" alt="1 · Qué hace"> | <img src="docs/images/onb-es-2.png" alt="2 · Qué no se cierra"> | <img src="docs/images/onb-es-3.png" alt="3 · Cómo lanzarlo"> | <img src="docs/images/onb-es-done.png" alt="Todo listo"> |
 
+| Barra de menús | Elegir qué se cierra, se oculta o se queda | Al abrirla desde Spotlight / Raycast | Una app que no se cierra |
+|:--:|:--:|:--:|:--:|
+| <img src="docs/images/menu-es.png" alt="Barra de menús"> | <img src="docs/images/apps-es.png" alt="Elegir qué se cierra, se oculta o se queda"> | <img src="docs/images/run-es.png" alt="Al abrirla desde Spotlight o Raycast: listo, con Deshacer"> | <img src="docs/images/stuck-es.png" alt="Apps que siguen abiertas: mostrar, forzar o dejar abierta"> |
+
+Escribe «QuitAll» en Spotlight, Alfred o Raycast y pulsa ↩: se cierra todo y este aviso te enseña qué ha pasado, con **Deshacer**.
+
 ## Formas de lanzar «Cerrar todo»
 
 | Dónde | Cómo |

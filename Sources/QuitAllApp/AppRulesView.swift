@@ -25,7 +25,7 @@ final class AppList: ObservableObject {
         if Snapshot.privacy { apps = apps.filter { $0.url.path.hasPrefix("/System/Applications") }; running = [] }
     }
 
-    func refreshRunning() { running = Set(Running.regularApps().compactMap(\.bundleIdentifier)) }
+    func refreshRunning() { running = Snapshot.privacy ? [] : Set(Running.regularApps().compactMap(\.bundleIdentifier)) }
 }
 
 /// Las apps que NO se cierran, en desplegables por categoría: logo + nombre + regla.
@@ -35,7 +35,7 @@ struct AppRulesView: View {
     var compact = false
     @StateObject private var query = Local("")
     @StateObject private var onlyRunning = Local(false)
-    @StateObject private var expanded = Local<Set<AppCategory>>(Snapshot.active || Snapshot.privacy ? [.music] : [])
+    @StateObject private var expanded = Local<Set<AppCategory>>(Snapshot.active || Snapshot.privacy ? Snapshot.expand : [])
 
     private func visible(_ e: AppEntry) -> Bool {
         if onlyRunning.v && !list.running.contains(e.bundleID) { return false }
