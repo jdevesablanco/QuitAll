@@ -97,6 +97,8 @@ public struct Settings: Codable, Equatable, Sendable {
     public var categoryOverrides: [String: String] = [:]
     public var language: AppLanguage = .auto
     public var launchAtLogin: Bool = true
+    /// Sin icono, QuitAll se usa abriéndola (Spotlight, Alfred, Raycast, Dock…) o con el atajo.
+    public var showMenuBarIcon: Bool = true
     public var onboardingDone: Bool = false
 
     public init() {}
@@ -113,31 +115,32 @@ public struct Settings: Codable, Equatable, Sendable {
         profiles.first { $0.name.compare(name, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame }
     }
 
-    /// Perfil inicial: la música sigue sonando (las apps de música se dejan como están). Todo lo demás se cierra.
+    /// Perfil inicial: las apps de música se ocultan (siguen sonando, pero desaparecen de la vista). Todo lo demás se cierra.
     public static func defaultProfile() -> Profile {
         Profile(name: tr("General", "General"), rules: [
-            "com.apple.Music": .keep, "com.spotify.client": .keep, "com.apple.podcasts": .keep,
+            "com.apple.Music": .hide, "com.spotify.client": .hide, "com.apple.podcasts": .hide,
         ])
     }
 
     public init(from decoder: Decoder) throws {
         // Decodificación tolerante: las claves que falten (versiones antiguas) toman el valor por defecto.
         self.init()
-        let c = try decoder.container(keyedBy: Keys.self)
-        func get<T: Decodable>(_ k: Keys, _ v: inout T) { if let x = try? c.decodeIfPresent(T.self, forKey: k) { v = x } }
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        func get<T: Decodable>(_ k: CodingKeys, _ v: inout T) { if let x = try? c.decodeIfPresent(T.self, forKey: k) { v = x } }
         get(.profiles, &profiles); get(.activeProfileID, &activeProfileID); get(.timeout, &timeout)
         get(.hotkeyEnabled, &hotkeyEnabled); get(.hotkey, &hotkey); get(.reopenAction, &reopenAction)
         get(.categoryOverrides, &categoryOverrides); get(.language, &language)
-        get(.launchAtLogin, &launchAtLogin); get(.onboardingDone, &onboardingDone)
+        get(.launchAtLogin, &launchAtLogin); get(.showMenuBarIcon, &showMenuBarIcon); get(.onboardingDone, &onboardingDone)
         if profiles.isEmpty { profiles = [Settings.defaultProfile()] }
         timeout = min(max(timeout, 2), 60)
     }
 
-    enum Keys: String, CodingKey {
+    // Se llama CodingKeys para que la codificación sintetizada use las mismas claves que la lectura.
+    enum CodingKeys: String, CodingKey {
         // «openAction»: clave nueva (antes «reopenAction», que solo valía con la app ya abierta y por defecto mostraba el menú).
         case reopenAction = "openAction"
         case profiles, activeProfileID, timeout, hotkeyEnabled, hotkey, categoryOverrides
-        case language, launchAtLogin, onboardingDone
+        case language, launchAtLogin, showMenuBarIcon, onboardingDone
     }
 }
 

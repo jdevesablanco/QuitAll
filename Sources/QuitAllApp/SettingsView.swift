@@ -70,7 +70,11 @@ struct SettingsView: View {
                                          set: { $0 ? try? Integrations.installService() : Integrations.removeService(); model.objectWillChange.send() }))
                     .labelsHidden().toggleStyle(.switch)
             }
-            row(tr("Al abrir QuitAll", "When you open QuitAll"), tr("Desde Spotlight, Launchpad, el Dock (si la añades) o Finder. No se dispara al iniciar sesión.", "From Spotlight, Launchpad, the Dock (if you pin it) or Finder. Never fires at login.")) {
+            row(tr("Icono en la barra de menús", "Menu bar icon"), tr("Si lo quitas, usa QuitAll desde Spotlight, Alfred, Raycast o el Dock: al abrir la app se ejecuta «Cerrar todo» con tus excepciones. Para volver aquí, mantén ⇧ al abrirla o pulsa ⚙︎ en el aviso que sale tras cerrar.",
+                                                                         "If you remove it, use QuitAll from Spotlight, Alfred, Raycast or the Dock: opening the app runs “Quit all” with your exceptions. To come back here, hold ⇧ while opening it, or click ⚙︎ in the notice shown after quitting.")) {
+                Toggle("", isOn: $model.s.showMenuBarIcon).labelsHidden().toggleStyle(.switch)
+            }
+            row(tr("Al abrir QuitAll", "When you open QuitAll"), tr("Desde Spotlight, Alfred, Raycast, Launchpad, el Dock o Finder. Nunca al iniciar sesión. Con ⇧ pulsada abre estos Ajustes.", "From Spotlight, Alfred, Raycast, Launchpad, the Dock or Finder. Never at login. Holding ⇧ opens these Settings.")) {
                 Picker("", selection: $model.s.reopenAction) {
                     Text(tr("Mostrar el menú", "Show the menu")).tag(ReopenAction.showMenu)
                     Text(tr("Cerrar todo", "Quit all")).tag(ReopenAction.quitAll)

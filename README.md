@@ -4,13 +4,13 @@
 
 [Español](README.es.md) · macOS 13+ · Apple Silicon & Intel · MIT licence · no network, no accounts
 
-End of the day, switching to study mode, about to share your screen: you want a clean Mac without hunting through the Dock. QuitAll lives in the menu bar (no Dock icon). Click its ⏻ icon, press **Quit all**, done.
+End of the day, switching to study mode, about to share your screen: you want a clean Mac without hunting through the Dock. Open QuitAll from Spotlight, Alfred or Raycast and it's done: **opening the app runs Quit all**. Or use its ⏻ menu bar icon (optional) to see what will happen first.
 
 - **Pick what stays**, in drop-downs by category (Browsers, Communication, Productivity, Music & Audio, Developer Tools, System…), with each app's icon and name. The category comes from the app's own `LSApplicationCategoryType` and you can change it by hand.
 - For each app you pick: **Hide** it or **Leave it as is**. Everything else: **Quit**.
 - **Polite quitting**: QuitAll asks each app to quit exactly like ⌘Q does, so every app shows its own *save changes?* dialog. After a few seconds (configurable) it tells you which apps are still open — usually because they're waiting for you to save — with **Show**, **Force quit** and **Leave open** for each.
 - **Undo**: reopens the apps the last action quit and shows the ones it hid.
-- **Safe defaults**: Finder and QuitAll never quit, nor do system components (Dock, Control Center, login window…). Music apps start as *Leave as is* so your music keeps playing.
+- **Safe defaults**: Finder and QuitAll never quit, nor do system components (Dock, Control Center, login window…). Music apps start as *Hide*: they keep playing, just out of sight.
 - **Global shortcut** (default ⌃⌥⌘Q, configurable), optional **open at login**, optional **profiles** (e.g. *Study*, *Focus*) with different lists, Spanish/English.
 
 ## Install
@@ -40,10 +40,11 @@ Three short steps (ES/EN switch at the top right): what QuitAll does → which a
 
 | Where | How |
 |---|---|
+| Spotlight, Alfred, Raycast | Type “QuitAll” and press ↩: opening the app runs **Quit all** with your exceptions. Hold ⇧ while opening it to get Settings instead. You can change this in *Settings → Launch*. |
 | Menu bar | Click ⏻ → **Quit all**. Tap an app's icon there to cycle quit → hide → keep. Right-click ⏻ for a quick menu. |
 | Keyboard | Global shortcut, ⌃⌥⌘Q by default (*Settings → Launch*). No Accessibility permission needed. |
 | Services menu | Any app's menu → *Services* → **QuitAll: Quit all** (installed from the app). You can give it its own shortcut in *System Settings → Keyboard → Keyboard Shortcuts → Services*. |
-| Spotlight, Launchpad, Dock | Just open QuitAll (⌘Space → “QuitAll” → ↩, or pin it to the Dock and click it): opening it **runs Quit all** right away. It never fires at login or right after installing. Prefer the menu instead? *Settings → Launch → When you open QuitAll → Show the menu*. |
+| Launchpad, Dock | Just open QuitAll (⌘Space → “QuitAll” → ↩, or pin it to the Dock and click it): opening it **runs Quit all** right away. It never fires at login or right after installing. Prefer the menu instead? *Settings → Launch → When you open QuitAll → Show the menu*. |
 | URL | `open quitall://quit`, `open "quitall://quit?profile=Study"`, `open quitall://undo` |
 | Shortcuts app | *Open URLs* with `quitall://quit`, or *Run Shell Script* with `quitall quit` |
 | Terminal | `quitall quit` (see below) |
@@ -53,7 +54,7 @@ Three short steps (ES/EN switch at the top right): what QuitAll does → which a
 Not possible, honestly. The menu you get by right-clicking the empty desktop belongs to Finder and macOS doesn't let other apps add items to it:
 
 - **Quick Actions / Services** only show up in Finder's context menu when *files are selected*; with nothing selected they're not offered there.
-- **Finder Sync extensions** can add items to a folder's background menu, but only for local folders they monitor, they need a sandboxed app extension built with Xcode, and they don't work at all in iCloud Drive / File Provider folders — which includes the Desktop when *Desktop & Documents* sync is on (we tested this with ExSplit).
+- **Finder Sync extensions** can add items to a folder's background menu, but only for local folders they monitor, they need a sandboxed app extension built with Xcode, and they don't work at all in iCloud Drive / File Provider folders — which includes the Desktop when *Desktop & Documents* sync is on (we tested this with SplitExercises).
 
 So QuitAll uses the menu bar, a global shortcut, the Services menu, the Dock, Shortcuts and the `quitall://` URL scheme instead.
 
@@ -77,6 +78,7 @@ The terminal you run `quitall` from is never quit (add `--include-terminal` if y
 - macOS doesn't tell other apps whether a document has unsaved changes. QuitAll can only see that an app is still open after asking it to quit; if it has a window on screen, it's almost always a *save changes?* dialog, so that's what it says.
 - **Undo** reopens the apps; which windows and documents come back is up to each app and to *System Settings → Desktop & Dock → Close windows when quitting an application*.
 - Only regular apps (the ones with a Dock icon) are quit. Menu bar utilities and background agents are left alone.
+- The menu bar icon is optional (*Settings → Launch*). Without it, use QuitAll from Spotlight/Alfred/Raycast, the shortcut or the Dock; hold ⇧ while opening it, or click ⚙︎ in the notice shown after quitting, to reach Settings.
 - Profiles are optional: the active one is used by the button, the shortcut and the Service; pick it from the menu bar.
 
 Settings live in `~/Library/Application Support/QuitAll/settings.json`.
@@ -91,10 +93,10 @@ Made by the same author, free and open source:
 
 | App | What it does | Status |
 |---|---|---|
-| [ExSplit](https://github.com/jdevesablanco/ExSplit) | Splits exercise PDFs into one sheet per exercise, from the right-click menu | Available |
-| RightYourClick | A better Finder right-click menu, with everything in one place | Available soon |
+| [SplitExercises](https://github.com/jdevesablanco/SplitExercises) | Splits exercise PDFs into one sheet per exercise, from the right-click menu | Available |
+| RightYourClick | A better Finder right-click menu, with everything in one place | Coming soon |
 | **QuitAll** | Quits every app in one click, except the ones you pick | This app |
-| SimpleBar | Tidies the menu bar: visible, hidden and always-hidden icons | Available soon |
+| SimpleBar | Tidies the menu bar: visible, hidden and always-hidden icons | Coming soon |
 
 The app shows the same cards (in the last setup screen and in *Settings → Pairs well with*), detects which ones you have and installs the rest with Homebrew or the latest `.pkg` from GitHub.
 

@@ -57,13 +57,14 @@ final class RunPanelController {
     let controller: QuitController
     private var panel: NSPanel?
     private var hideWork: DispatchWorkItem?
+    var openSettings: () -> Void = {}
 
     init(controller: QuitController) { self.controller = controller }
 
     func show() {
         hideWork?.cancel()
         if panel == nil {
-            let host = NSHostingView(rootView: RunView(c: controller, close: { [weak self] in self?.hide() }).tint(Color.brand))
+            let host = NSHostingView(rootView: RunView(c: controller, close: { [weak self] in self?.hide() }, settings: { [weak self] in self?.hide(); self?.openSettings() }).tint(Color.brand))
             let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 360, height: 120), styleMask: [.nonactivatingPanel, .fullSizeContentView, .borderless],
                             backing: .buffered, defer: false)
             p.isFloatingPanel = true
@@ -103,6 +104,7 @@ final class RunPanelController {
 struct RunView: View {
     @ObservedObject var c: QuitController
     var close: () -> Void
+    var settings: () -> Void = {}
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -132,6 +134,8 @@ struct RunView: View {
                 if !detail.isEmpty { Text(detail).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
             }
             Spacer(minLength: 0)
+            Button(action: settings) { Image(systemName: "gearshape").font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary) }
+                .buttonStyle(.plain).help(tr("Ajustes de QuitAll", "QuitAll settings"))
             Button(action: close) { Image(systemName: "xmark").font(.system(size: 10, weight: .bold)).foregroundStyle(.secondary) }
                 .buttonStyle(.plain).help(tr("Cerrar aviso", "Dismiss"))
         }

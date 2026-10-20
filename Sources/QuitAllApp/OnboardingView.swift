@@ -153,8 +153,15 @@ struct OnboardingView: View {
     var stepLaunch: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text(tr("Lánzalo como prefieras", "Run it your way")).font(.title2.bold())
-            option("cursorarrow.click", tr("Icono de la barra de menús", "Menu bar icon"), tr("Siempre disponible.", "Always available.")) {
+            option("magnifyingglass", tr("Ábrela desde Spotlight, Alfred o Raycast", "Open it from Spotlight, Alfred or Raycast"),
+                   tr("Al abrir QuitAll se ejecuta «Cerrar todo» al momento, con tus excepciones. Lo puedes cambiar luego en Ajustes.",
+                      "Opening QuitAll runs “Quit all” right away, with your exceptions. You can change this later in Settings.")) {
                 Image(systemName: "checkmark").foregroundStyle(Color.brand)
+            }
+            option("menubar.rectangle", tr("Icono en la barra de menús", "Menu bar icon"),
+                   model.s.showMenuBarIcon ? tr("Clic en ⏻ para ver qué se cierra y cerrar todo.", "Click ⏻ to see what quits and quit all.")
+                                           : tr("Sin icono: úsala desde Spotlight, Alfred, Raycast o el atajo. ⇧ al abrirla = Ajustes.", "No icon: use it from Spotlight, Alfred, Raycast or the shortcut. ⇧ while opening = Settings.")) {
+                Toggle("", isOn: $model.s.showMenuBarIcon).labelsHidden().toggleStyle(.switch)
             }
             option("keyboard", tr("Atajo de teclado global", "Global keyboard shortcut"), tr("Haz clic y pulsa otra combinación para cambiarlo.", "Click and type another combination to change it.")) {
                 HotkeyRecorder(model: model)
@@ -167,8 +174,8 @@ struct OnboardingView: View {
             }
             VStack(alignment: .leading, spacing: 4) {
                 Label(tr("¿Y el clic derecho en el escritorio?", "What about right-clicking the desktop?"), systemImage: "info.circle").font(.callout.bold())
-                Text(tr("macOS no permite añadir opciones al menú del fondo del escritorio (ni con Acciones rápidas ni con extensiones de Finder, que además no funcionan si el Escritorio está en iCloud). Por eso QuitAll usa el atajo, la barra de menús y Servicios. Y abrir QuitAll desde Spotlight o el Dock cierra todo al momento (se cambia en Ajustes → Lanzar).",
-                        "macOS doesn't let apps add items to the desktop background menu (not with Quick Actions nor Finder extensions, which also fail when Desktop is in iCloud). So QuitAll uses the shortcut, the menu bar and Services. And opening QuitAll from Spotlight or the Dock quits everything right away (change it in Settings → Launch)."))
+                Text(tr("macOS no permite añadir opciones al menú del fondo del escritorio (ni con Acciones rápidas ni con extensiones de Finder, que además no funcionan si el Escritorio está en iCloud). Por eso QuitAll usa el atajo, la barra de menús y Servicios. Abrir QuitAll desde Spotlight o el Dock también cierra todo.",
+                        "macOS doesn't let apps add items to the desktop background menu (not with Quick Actions nor Finder extensions, which also fail when Desktop is in iCloud). So QuitAll uses the shortcut, the menu bar and Services. Opening QuitAll from Spotlight or the Dock quits everything too."))
                     .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
             .padding(10).background(RoundedRectangle(cornerRadius: 8).fill(Color.primary.opacity(0.05)))
@@ -214,7 +221,8 @@ struct OnboardingDoneView: View {
             Text(tr("¡Todo listo!", "All set!"))
                 .font(.system(size: 26, weight: .bold)).padding(.top, 6)
                 .opacity(phase.v >= 3 ? 1 : 0).offset(y: phase.v >= 3 ? 0 : 10)
-            Text(tr("Haz clic en el icono ⏻ de la barra de menús y pulsa «Cerrar todo».", "Click the ⏻ icon in the menu bar and press “Quit all”."))
+            Text(tr("Abre QuitAll desde Spotlight, Alfred o Raycast y se cerrará todo al momento (o usa ⏻ en la barra de menús). Puedes cambiarlo en Ajustes.",
+                    "Open QuitAll from Spotlight, Alfred or Raycast and everything quits right away (or use ⏻ in the menu bar). You can change this in Settings."))
                 .font(.callout).foregroundStyle(.secondary).multilineTextAlignment(.center)
                 .padding(.top, 4).padding(.horizontal, 70)
                 .opacity(phase.v >= 3 ? 1 : 0)

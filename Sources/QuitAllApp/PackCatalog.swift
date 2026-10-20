@@ -1,6 +1,6 @@
 // PackCatalog.swift — catálogo, detección e instalación de las apps de la familia, y sus tarjetas.
 //
-// Este archivo es IDÉNTICO en ExSplit, RightYourClick, QuitAll y SimpleBar: si cambias algo, cópialo a las cuatro.
+// Este archivo es IDÉNTICO en SplitExercises, RightYourClick, QuitAll y SimpleBar: si cambias algo, cópialo a las cuatro.
 // No depende de nada de cada app (solo SwiftUI/AppKit). Cada app puede ajustar, al arrancar:
 //   PackCatalog.isSpanish = { … }     // idioma elegido en la app (por defecto, el del sistema)
 //   PackCatalog.accent = …            // color de acento (por defecto, el morado de la familia)
@@ -24,18 +24,18 @@ enum PackCatalog {
     static let owner = "jdevesablanco"
 
     static let apps: [PackApp] = [
-        PackApp(id: "io.github.jdevesablanco.ExSplit", name: "ExSplit", cask: "exsplit", symbol: "rectangle.split.1x2",
+        PackApp(id: "io.github.jdevesablanco.SplitExercises", name: "SplitExercises", cask: "splitexercises", symbol: "rectangle.split.1x2",
                 es: "Divide PDFs de ejercicios en una hoja por ejercicio, con clic derecho.",
                 en: "Splits exercise PDFs into one sheet per exercise, from the right-click menu.", released: true),
         PackApp(id: "com.jdevesablanco.rightyourclick", name: "RightYourClick", cask: "rightyourclick", symbol: "contextualmenu.and.cursorarrow",
                 es: "Un clic derecho mejorado para Finder, con todo en un solo sitio.",
-                en: "A better Finder right-click menu, with everything in one place.", released: true),
+                en: "A better Finder right-click menu, with everything in one place.", released: false),
         PackApp(id: "com.jdevesablanco.quitall", name: "QuitAll", cask: "quitall", symbol: "power",
                 es: "Cierra todas las apps de un clic, menos las que elijas.",
-                en: "Quits every app in one click, except the ones you pick.", released: false),
+                en: "Quits every app in one click, except the ones you pick.", released: true),
         PackApp(id: "com.jdevesablanco.simplebar", name: "SimpleBar", cask: "simplebar", symbol: "menubar.rectangle",
                 es: "Ordena la barra de menús: iconos visibles, ocultos y siempre ocultos.",
-                en: "Tidies the menu bar: visible, hidden and always-hidden icons.", released: true),
+                en: "Tidies the menu bar: visible, hidden and always-hidden icons.", released: false),
     ]
 
     static func t(_ es: String, _ en: String) -> String { isSpanish() ? es : en }
@@ -199,7 +199,8 @@ struct PackAppCard: View {
     @ObservedObject var store: PackStore
     var compact = false
 
-    private var url: URL? { store.installed[app.id] }
+    // Una app sin publicar sale como «Próximamente» aunque haya una versión de desarrollo instalada (salvo en sí misma).
+    private var url: URL? { app.released || isSelf ? store.installed[app.id] : nil }
     private var isSelf: Bool { app.id == Bundle.main.bundleIdentifier }
 
     var body: some View {

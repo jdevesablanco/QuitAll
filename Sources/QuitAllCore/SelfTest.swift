@@ -33,6 +33,10 @@ public enum SelfTest {
         check(Hotkey.default.display == "⌃⌥⌘Q", "atajo por defecto")
         let old = try? JSONDecoder().decode(Settings.self, from: Data(#"{"reopenAction":"showMenu"}"#.utf8))
         check(old?.reopenAction == .quitAll, "abrir la app = cerrar todo (también con ajustes antiguos)")
+        var m = Settings(); m.reopenAction = .showMenu; m.showMenuBarIcon = false
+        let m2 = (try? JSONEncoder().encode(m)).flatMap { try? JSONDecoder().decode(Settings.self, from: $0) }
+        check(m2?.reopenAction == .showMenu && m2?.showMenuBarIcon == false, "ajustes: «al abrir» e icono se guardan")
+        check(Settings.defaultProfile().action(for: "com.spotify.client") == .hide, "música por defecto: ocultar")
 
         let plan = Planner.plan(profile: Profile(name: "Todo"))
         let finder = plan.first { $0.bundleID == "com.apple.finder" }

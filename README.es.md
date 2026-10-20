@@ -4,13 +4,13 @@
 
 [English](README.md) · macOS 13+ · Apple Silicon e Intel · licencia MIT · sin red ni cuentas
 
-Al acabar el día, al ponerte a estudiar o antes de compartir pantalla quieres un Mac limpio sin ir cerrando apps una a una. QuitAll vive en la barra de menús (sin icono en el Dock). Clic en su icono ⏻, **Cerrar todo** y listo.
+Al acabar el día, al ponerte a estudiar o antes de compartir pantalla quieres un Mac limpio sin ir cerrando apps una a una. Abre QuitAll desde Spotlight, Alfred o Raycast y listo: **abrir la app ejecuta Cerrar todo**. O usa su icono ⏻ de la barra de menús (opcional) para ver antes qué va a pasar.
 
 - **Eliges qué se queda** en desplegables por categoría (Navegadores, Comunicación, Productividad, Música y audio, Desarrollo, Sistema…), con el icono y el nombre de cada app. La categoría sale del `LSApplicationCategoryType` de cada app y la puedes cambiar a mano.
 - Para cada app elegida: **Ocultar** o **Dejar como está**. Todas las demás: **Cerrar**.
 - **Cierre educado**: QuitAll pide a cada app que se cierre igual que ⌘Q, así que cada una muestra su propio diálogo de *¿guardar cambios?*. Pasados unos segundos (configurable) te dice cuáles siguen abiertas —normalmente porque esperan a que guardes— con **Mostrar**, **Forzar** y **Dejar abierta** para cada una.
 - **Deshacer**: reabre las apps que cerró la última acción y vuelve a mostrar las que ocultó.
-- **Preajustes seguros**: Finder y QuitAll nunca se cierran, ni las piezas del sistema (Dock, Centro de control, ventana de inicio…). Las apps de música empiezan en *Dejar como está* para que la música siga sonando.
+- **Preajustes seguros**: Finder y QuitAll nunca se cierran, ni las piezas del sistema (Dock, Centro de control, ventana de inicio…). Las apps de música empiezan en *Ocultar*: siguen sonando, pero fuera de la vista.
 - **Atajo global** (por defecto ⌃⌥⌘Q, configurable), **abrir al iniciar sesión** opcional, **perfiles** opcionales (p. ej. *Estudio*, *Concentración*) con listas distintas, español/inglés.
 
 ## Instalación
@@ -40,10 +40,11 @@ Tres pasos cortos (selector ES/EN arriba a la derecha): qué hace QuitAll → qu
 
 | Dónde | Cómo |
 |---|---|
+| Spotlight, Alfred, Raycast | Escribe «QuitAll» y pulsa ↩: abrir la app ejecuta **Cerrar todo** con tus excepciones. Mantén ⇧ al abrirla para ir a Ajustes. Se cambia en *Ajustes → Lanzar*. |
 | Barra de menús | Clic en ⏻ → **Cerrar todo**. Toca el icono de una app ahí para alternar cerrar → ocultar → dejar. Clic derecho en ⏻: menú rápido. |
 | Teclado | Atajo global, ⌃⌥⌘Q por defecto (*Ajustes → Lanzar*). No pide permiso de Accesibilidad. |
 | Menú Servicios | Menú de cualquier app → *Servicios* → **QuitAll: cerrar todo** (se instala desde la app). Le puedes dar su propio atajo en *Ajustes del Sistema → Teclado → Funciones rápidas → Servicios*. |
-| Spotlight, Launchpad, Dock | Basta con abrir QuitAll (⌘Espacio → «QuitAll» → ↩, o fíjala en el Dock y haz clic): al abrirla **ejecuta Cerrar todo** al momento. Nunca se dispara al iniciar sesión ni justo después de instalarla. ¿Prefieres ver el menú? *Ajustes → Lanzar → Al abrir QuitAll → Mostrar el menú*. |
+| Launchpad, Dock | Basta con abrir QuitAll (⌘Espacio → «QuitAll» → ↩, o fíjala en el Dock y haz clic): al abrirla **ejecuta Cerrar todo** al momento. Nunca se dispara al iniciar sesión ni justo después de instalarla. ¿Prefieres ver el menú? *Ajustes → Lanzar → Al abrir QuitAll → Mostrar el menú*. |
 | URL | `open quitall://quit`, `open "quitall://quit?profile=Estudio"`, `open quitall://undo` |
 | App Atajos | *Abrir URL* con `quitall://quit`, o *Ejecutar script de shell* con `quitall quit` |
 | Terminal | `quitall quit` (ver abajo) |
@@ -53,7 +54,7 @@ Tres pasos cortos (selector ES/EN arriba a la derecha): qué hace QuitAll → qu
 No se puede, siendo honestos. El menú que sale al hacer clic derecho en el fondo vacío del escritorio es de Finder y macOS no deja que otras apps le añadan opciones:
 
 - Las **Acciones rápidas / Servicios** solo aparecen en el menú contextual de Finder cuando hay *archivos seleccionados*; sin selección, no se ofrecen ahí.
-- Las **extensiones Finder Sync** pueden añadir opciones al fondo de una carpeta, pero solo en carpetas locales que vigilan, necesitan una extensión con sandbox compilada con Xcode y no funcionan en carpetas de iCloud Drive / File Provider, lo que incluye el Escritorio si tienes activado *Escritorio y Documentos* en iCloud (lo comprobamos con ExSplit).
+- Las **extensiones Finder Sync** pueden añadir opciones al fondo de una carpeta, pero solo en carpetas locales que vigilan, necesitan una extensión con sandbox compilada con Xcode y no funcionan en carpetas de iCloud Drive / File Provider, lo que incluye el Escritorio si tienes activado *Escritorio y Documentos* en iCloud (lo comprobamos con SplitExercises).
 
 Por eso QuitAll usa la barra de menús, un atajo global, el menú Servicios, el Dock, Atajos y el esquema `quitall://`.
 
@@ -77,6 +78,7 @@ La terminal desde la que lanzas `quitall` nunca se cierra (añade `--include-ter
 - macOS no deja saber a otras apps si un documento tiene cambios sin guardar. QuitAll solo ve que una app sigue abierta después de pedirle que se cierre; si tiene una ventana en pantalla, casi siempre es el diálogo de *¿guardar cambios?*, y así lo indica.
 - **Deshacer** reabre las apps; qué ventanas y documentos recupera cada una depende de ella y de *Ajustes del Sistema → Escritorio y Dock → Cerrar ventanas al salir de una app*.
 - Solo se cierran apps normales (las que tienen icono en el Dock). Las utilidades de la barra de menús y los procesos de fondo no se tocan.
+- El icono de la barra de menús es opcional (*Ajustes → Lanzar*). Sin él, usa QuitAll desde Spotlight/Alfred/Raycast, el atajo o el Dock; para llegar a Ajustes, mantén ⇧ al abrirla o pulsa ⚙︎ en el aviso que sale tras cerrar.
 - Los perfiles son opcionales: el activo es el que usan el botón, el atajo y el Servicio; se elige en la barra de menús.
 
 Los ajustes están en `~/Library/Application Support/QuitAll/settings.json`.
@@ -91,10 +93,10 @@ Del mismo autor, gratis y open source:
 
 | App | Qué hace | Estado |
 |---|---|---|
-| [ExSplit](https://github.com/jdevesablanco/ExSplit) | Divide PDFs de ejercicios en una hoja por ejercicio, con clic derecho | Disponible |
-| RightYourClick | Un clic derecho mejorado para Finder, con todo en un solo sitio | Muy pronto |
+| [SplitExercises](https://github.com/jdevesablanco/SplitExercises) | Divide PDFs de ejercicios en una hoja por ejercicio, con clic derecho | Disponible |
+| RightYourClick | Un clic derecho mejorado para Finder, con todo en un solo sitio | Próximamente |
 | **QuitAll** | Cierra todas las apps de un clic, menos las que elijas | Esta app |
-| SimpleBar | Ordena la barra de menús: iconos visibles, ocultos y siempre ocultos | Muy pronto |
+| SimpleBar | Ordena la barra de menús: iconos visibles, ocultos y siempre ocultos | Próximamente |
 
 La app muestra las mismas tarjetas (en la última pantalla de bienvenida y en *Ajustes → Combina bien con*), detecta cuáles tienes e instala las demás con Homebrew o con el último `.pkg` de GitHub.
 

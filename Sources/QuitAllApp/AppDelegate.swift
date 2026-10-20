@@ -41,7 +41,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             Snapshot.run(model: model, controller: controller, dir: dir); NSApp.terminate(nil); return
         }
         model.onChange = { [weak self] old, new in self?.settingsChanged(old, new) }
-        setupStatusItem()
+        refreshStatusItem()
+        panel.openSettings = { [weak self] in self?.showSettings() }
         setupPopover()
         GlobalHotkey.shared.onPress = { [weak self] in self?.quitAll() }
         GlobalHotkey.shared.register(model.s.hotkeyEnabled ? model.s.hotkey : nil)
@@ -72,6 +73,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func userOpenedApp() {
+        // ⇧ al abrirla (Spotlight, Alfred, Raycast, Dock…) = Ajustes, sin cerrar nada: la vía de entrada cuando no hay icono.
+        if NSEvent.modifierFlags.contains(.shift) { showSettings(); return }
         switch model.s.reopenAction {
         case .quitAll: quitAll()
         case .showMenu: showPopover()
@@ -132,6 +135,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             onboardingWindow?.title = tr("Bienvenido a QuitAll", "Welcome to QuitAll")
             if Integrations.serviceInstalled { try? Integrations.installService() }   // el título del Servicio va en su idioma
         }
+        if old.showMenuBarIcon != new.showMenuBarIcon { refreshStatusItem() }
         if old.hotkey != new.hotkey || old.hotkeyEnabled != new.hotkeyEnabled {
             GlobalHotkey.shared.register(new.hotkeyEnabled ? new.hotkey : nil)
         }
@@ -145,7 +149,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     // MARK: barra de menús
 
-    func setupStatusItem() {
+    func refreshStatusItem() {
+        if !model.s.showMenuBarIcon {
+            if let item = statusItem { popover.performClose(nil); NSStatusBar.system.removeStatusItem(item); statusItem = nil }
+            return
+        }
+        guard statusItem == nil else { return }
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         item.autosaveName = "QuitAllStatusItem"
         if let b = item.button {
@@ -189,8 +198,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func showPopover() {
-        guard let b = statusItem?.button else { return }
         if !model.s.onboardingDone { showOnboarding(); return }
+        guard let b = statusItem?.button else { showSettings(); return }   // sin icono en la barra: Ajustes
         popoverRefresh.v += 1
         controller.lastRun = UndoStore.load()
         NSApp.activate(ignoringOtherApps: true)
@@ -224,7 +233,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             NSLog("QuitAll: login item: \(err)")
         }
         onboardingWindow?.close()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in self?.showPopover() }
+        if model.s.showMenuBarIcon { DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in self?.showPopover() } }
     }
 
     func makeWindow<V: View>(title: String, view: V) -> NSWindow {
