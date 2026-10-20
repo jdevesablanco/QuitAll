@@ -13,8 +13,8 @@ cask "quitall" do
   binary "#{appdir}/QuitAll.app/Contents/Resources/quitall"
 
   # La app no está notarizada (no hay cuenta de Apple Developer de pago): sin esto macOS la bloquearía al abrirla.
-  postflight do
-    system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{appdir}/QuitAll.app"]
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/QuitAll.app"], must_succeed: false
   end
 
   uninstall quit: "com.jdevesablanco.quitall"
