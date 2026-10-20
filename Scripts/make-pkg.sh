@@ -17,7 +17,8 @@ SH
 chmod +x "$W/scripts/postinstall"
 # Sin esto, Installer «reubica» la app si encuentra otra copia con el mismo bundle ID (p. ej. build/QuitAll.app).
 pkgbuild --analyze --root "$W/root" "$W/component.plist" >/dev/null
-/usr/libexec/PlistBuddy -c "Add :0:BundleIsRelocatable bool false" "$W/component.plist"
+/usr/libexec/PlistBuddy -c "Set :0:BundleIsRelocatable false" "$W/component.plist" 2>/dev/null \
+  || /usr/libexec/PlistBuddy -c "Add :0:BundleIsRelocatable bool false" "$W/component.plist"
 pkgbuild --root "$W/root" --component-plist "$W/component.plist" --scripts "$W/scripts" --identifier com.jdevesablanco.quitall.pkg \
   --version "$VERSION" --install-location /Applications "$W/QuitAll-component.pkg" >/dev/null
 cat > "$W/dist.xml" <<XML
