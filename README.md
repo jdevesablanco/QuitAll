@@ -96,7 +96,6 @@ Made by the same author, free and open source:
 | [SplitExercises](https://github.com/jdevesablanco/SplitExercises) | Splits exercise PDFs into one sheet per exercise, from the right-click menu | Available |
 | RightYourClick | A better Finder right-click menu, with everything in one place | Coming soon |
 | **QuitAll** | Quits every app in one click, except the ones you pick | This app |
-| SimpleBar | Tidies the menu bar: visible, hidden and always-hidden icons | Coming soon |
 
 The app shows the same cards (in the last setup screen and in *Settings → Pairs well with*), detects which ones you have and installs the rest with Homebrew or the latest `.pkg` from GitHub.
 

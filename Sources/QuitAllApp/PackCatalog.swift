@@ -1,6 +1,6 @@
 // PackCatalog.swift — catálogo, detección e instalación de las apps de la familia, y sus tarjetas.
 //
-// Este archivo es IDÉNTICO en SplitExercises, RightYourClick, QuitAll y SimpleBar: si cambias algo, cópialo a las cuatro.
+// Este archivo es IDÉNTICO en SplitExercises, RightYourClick y QuitAll: si cambias algo, cópialo a las tres.
 // No depende de nada de cada app (solo SwiftUI/AppKit). Cada app puede ajustar, al arrancar:
 //   PackCatalog.isSpanish = { … }     // idioma elegido en la app (por defecto, el del sistema)
 //   PackCatalog.accent = …            // color de acento (por defecto, el morado de la familia)
@@ -33,9 +33,6 @@ enum PackCatalog {
         PackApp(id: "com.jdevesablanco.quitall", name: "QuitAll", cask: "quitall", symbol: "power",
                 es: "Cierra todas las apps de un clic, menos las que elijas.",
                 en: "Quits every app in one click, except the ones you pick.", released: true),
-        PackApp(id: "com.jdevesablanco.simplebar", name: "SimpleBar", cask: "simplebar", symbol: "menubar.rectangle",
-                es: "Ordena la barra de menús: iconos visibles, ocultos y siempre ocultos.",
-                en: "Tidies the menu bar: visible, hidden and always-hidden icons.", released: false),
     ]
 
     static func t(_ es: String, _ en: String) -> String { isSpanish() ? es : en }

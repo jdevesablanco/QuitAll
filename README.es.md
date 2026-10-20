@@ -96,7 +96,6 @@ Del mismo autor, gratis y open source:
 | [SplitExercises](https://github.com/jdevesablanco/SplitExercises) | Divide PDFs de ejercicios en una hoja por ejercicio, con clic derecho | Disponible |
 | RightYourClick | Un clic derecho mejorado para Finder, con todo en un solo sitio | Próximamente |
 | **QuitAll** | Cierra todas las apps de un clic, menos las que elijas | Esta app |
-| SimpleBar | Ordena la barra de menús: iconos visibles, ocultos y siempre ocultos | Próximamente |
 
 La app muestra las mismas tarjetas (en la última pantalla de bienvenida y en *Ajustes → Combina bien con*), detecta cuáles tienes e instala las demás con Homebrew o con el último `.pkg` de GitHub.
 

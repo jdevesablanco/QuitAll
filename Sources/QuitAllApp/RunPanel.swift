@@ -64,7 +64,7 @@ final class RunPanelController {
     func show() {
         hideWork?.cancel()
         if panel == nil {
-            let host = NSHostingView(rootView: RunView(c: controller, close: { [weak self] in self?.hide() }, settings: { [weak self] in self?.hide(); self?.openSettings() }).tint(Color.brand))
+            let host = NSHostingView(rootView: RunView(c: controller, close: { [weak self] in self?.hide() }, settings: { [weak self] in self?.hide(); self?.openSettings() }, hover: { [weak self] in self?.hoverChanged($0) }).tint(Color.brand))
             let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 360, height: 120), styleMask: [.nonactivatingPanel, .fullSizeContentView, .borderless],
                             backing: .buffered, defer: false)
             p.isFloatingPanel = true
@@ -76,8 +76,15 @@ final class RunPanelController {
             p.contentView = host
             panel = p
         }
+        let wasVisible = panel?.isVisible ?? false
         resizeAndPlace()
-        panel?.orderFrontRegardless()
+        guard let p = panel else { return }
+        if !wasVisible {
+            let target = p.frame
+            p.setFrame(target.offsetBy(dx: target.width + 20, dy: 0), display: true)
+            p.orderFrontRegardless()
+            NSAnimationContext.runAnimationGroup { $0.duration = 0.32; $0.timingFunction = CAMediaTimingFunction(name: .easeOut); p.animator().setFrame(target, display: true) }
+        } else { p.orderFrontRegardless() }
     }
 
     func resizeAndPlace() {
@@ -85,10 +92,21 @@ final class RunPanelController {
         let size = v.fittingSize
         let screen = NSScreen.main ?? NSScreen.screens[0]
         let vf = screen.visibleFrame
-        p.setFrame(NSRect(x: vf.maxX - size.width - 12, y: vf.maxY - size.height - 8, width: size.width, height: size.height), display: true)
+        p.setFrame(NSRect(x: vf.maxX - size.width + 2, y: vf.maxY - size.height + 2, width: size.width, height: size.height), display: true)
     }
 
-    func hide() { hideWork?.cancel(); panel?.orderOut(nil); controller.reset() }
+    func hide() {
+        hideWork?.cancel()
+        guard let p = panel, p.isVisible else { controller.reset(); return }
+        NSAnimationContext.runAnimationGroup({ $0.duration = 0.25; $0.timingFunction = CAMediaTimingFunction(name: .easeIn); p.animator().setFrame(p.frame.offsetBy(dx: p.frame.width + 20, dy: 0), display: true) },
+                                             completionHandler: { [weak self] in p.orderOut(nil); self?.controller.reset() })
+    }
+
+    /// Con el ratón encima el aviso no se va (como las notificaciones nativas).
+    func hoverChanged(_ inside: Bool) {
+        if inside { hideWork?.cancel() }
+        else if controller.phase == .done || controller.phase == .undone { hide(after: 3) }
+    }
 
     func hide(after s: Double) {
         hideWork?.cancel()
@@ -105,6 +123,8 @@ struct RunView: View {
     @ObservedObject var c: QuitController
     var close: () -> Void
     var settings: () -> Void = {}
+    var hover: (Bool) -> Void = { _ in }
+    @State private var hovering = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -112,32 +132,52 @@ struct RunView: View {
             if c.phase == .overdue, let r = c.run, !r.pending.isEmpty { stuckList(r) }
             buttons
         }
-        .padding(14)
-        .frame(width: 360)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.primary.opacity(0.12), lineWidth: 0.5))
+        .padding(.horizontal, 14).padding(.vertical, 12)
+        .frame(width: 344)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).stroke(Color.primary.opacity(0.10), lineWidth: 0.5))
+        .overlay(alignment: .topLeading) {
+            if hovering && !c.isBusy {
+                Button(action: close) {
+                    Image(systemName: "xmark").font(.system(size: 8, weight: .bold)).foregroundStyle(.secondary)
+                        .frame(width: 18, height: 18).background(Circle().fill(.regularMaterial))
+                        .overlay(Circle().stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
+                }
+                .buttonStyle(.plain).offset(x: -6, y: -6).help(tr("Cerrar aviso", "Dismiss"))
+            }
+        }
+        .onHover { h in withAnimation(.easeOut(duration: 0.12)) { hovering = h }; hover(h) }
+        .padding(12)
     }
 
     private var header: some View {
-        HStack(spacing: 10) {
-            ZStack {
-                Circle().fill(Color.brandSoft).frame(width: 34, height: 34)
-                switch c.phase {
-                case .quitting: ProgressView().controlSize(.small)
-                case .overdue: Image(systemName: "exclamationmark").font(.system(size: 15, weight: .bold)).foregroundStyle(.orange)
-                case .undone: Image(systemName: "arrow.uturn.backward").font(.system(size: 14, weight: .bold)).foregroundStyle(Color.brand)
-                default: Image(systemName: "checkmark").font(.system(size: 15, weight: .bold)).foregroundStyle(Color.brand)
+        HStack(alignment: .top, spacing: 10) {
+            ZStack(alignment: .bottomTrailing) {
+                Image(nsImage: NSApp.applicationIconImage).resizable().interpolation(.high).frame(width: 38, height: 38)
+                Group {
+                    switch c.phase {
+                    case .quitting: ProgressView().controlSize(.mini).frame(width: 16, height: 16).background(Circle().fill(.regularMaterial))
+                    case .overdue: Image(systemName: "exclamationmark.circle.fill").foregroundStyle(.white, .orange)
+                    case .undone: Image(systemName: "arrow.uturn.backward.circle.fill").foregroundStyle(.white, Color.brand)
+                    default: Image(systemName: "checkmark.circle.fill").foregroundStyle(.white, .green)
+                    }
                 }
+                .font(.system(size: 15)).offset(x: 4, y: 4)
             }
+            .frame(width: 42, height: 42)
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.system(size: 13, weight: .semibold))
-                if !detail.isEmpty { Text(detail).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
+                HStack(alignment: .firstTextBaseline) {
+                    Text(title).font(.system(size: 13, weight: .semibold))
+                    Spacer(minLength: 4)
+                    if hovering {
+                        Button(action: settings) { Image(systemName: "gearshape").font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary) }
+                            .buttonStyle(.plain).help(tr("Ajustes de QuitAll", "QuitAll settings"))
+                    } else {
+                        Text(tr("ahora", "now")).font(.system(size: 11)).foregroundStyle(.tertiary)
+                    }
+                }
+                if !detail.isEmpty { Text(detail).font(.system(size: 13)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
             }
-            Spacer(minLength: 0)
-            Button(action: settings) { Image(systemName: "gearshape").font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary) }
-                .buttonStyle(.plain).help(tr("Ajustes de QuitAll", "QuitAll settings"))
-            Button(action: close) { Image(systemName: "xmark").font(.system(size: 10, weight: .bold)).foregroundStyle(.secondary) }
-                .buttonStyle(.plain).help(tr("Cerrar aviso", "Dismiss"))
         }
     }
 
@@ -204,10 +244,20 @@ struct RunView: View {
             if let r = c.run, !(r.quit.isEmpty && r.hidden.isEmpty) {
                 HStack {
                     Spacer()
-                    Button { c.undo() } label: { Label(tr("Deshacer", "Undo"), systemImage: "arrow.uturn.backward") }.controlSize(.small)
+                    Button(tr("Deshacer", "Undo")) { c.undo() }.buttonStyle(NativeNoticeButton())
                 }
             }
         default: EmptyView()
         }
+    }
+}
+
+/// Botón gris redondeado como los de las notificaciones de macOS.
+struct NativeNoticeButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 12, weight: .medium))
+            .padding(.horizontal, 12).padding(.vertical, 4)
+            .background(Capsule().fill(Color.primary.opacity(configuration.isPressed ? 0.20 : 0.10)))
     }
 }
