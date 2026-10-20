@@ -55,16 +55,37 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             case .idle: break
             }
         }
-        if !model.s.onboardingDone {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in showOnboarding() }
+        // Abrir la app tú mismo (Spotlight, Launchpad, Dock, Finder) = «Cerrar todo». No cuenta el arranque al iniciar
+        // sesión, ni el lanzamiento para abrir un enlace quitall://, ni el que hacen el instalador y `quitall install` (--no-run).
+        let defaultLaunch = (n.userInfo?[NSApplication.launchIsDefaultUserInfoKey] as? Bool) ?? true
+        let noRun = ProcessInfo.processInfo.arguments.contains("--no-run")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
+            if !model.s.onboardingDone { showOnboarding() }
+            else if noRun { showPopover() }
+            else if defaultLaunch && !launchedAtLogin() { userOpenedApp() }
         }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !model.s.onboardingDone { showOnboarding() }
-        else if model.s.reopenAction == .quitAll { quitAll() }
-        else { showPopover() }
+        if !model.s.onboardingDone { showOnboarding() } else { userOpenedApp() }
         return true
+    }
+
+    func userOpenedApp() {
+        switch model.s.reopenAction {
+        case .quitAll: quitAll()
+        case .showMenu: showPopover()
+        }
+    }
+
+    /// ¿Nos ha lanzado macOS al iniciar sesión? El evento de apertura lo marca; por si acaso (SMAppService no siempre
+    /// lo hace), también lo damos por hecho si la sesión empezó hace menos de 2 minutos.
+    func launchedAtLogin() -> Bool {
+        if let ev = NSAppleEventManager.shared().currentAppleEvent, ev.eventID == AEEventID(kAEOpenApplication),
+           let d = ev.paramDescriptor(forKeyword: AEKeyword(keyAEPropData)), d.enumCodeValue == OSType(keyAELaunchedAsLogInItem) { return true }
+        if let lw = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.loginwindow").first?.launchDate,
+           Date().timeIntervalSince(lw) < 120 { return true }
+        return false
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
@@ -90,6 +111,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         popover.performClose(nil)
         var profile = model.s.activeProfile
         if let n = profileName, let p = model.s.profile(named: n) { profile = p }
+        // Modo ensayo (pruebas): QUITALL_DRY_RUN=1 solo apunta qué cerraría en <config>/dry-run.log.
+        if ProcessInfo.processInfo.environment["QUITALL_DRY_RUN"] == "1" {
+            let names = Planner.plan(profile: profile).filter { $0.action == .quit }.map(\.name).joined(separator: ", ")
+            let line = "\(Date()) quitAll(\(profile.name)): \(names)\n"
+            let url = SettingsStore.directory.appendingPathComponent("dry-run.log")
+            try? FileManager.default.createDirectory(at: SettingsStore.directory, withIntermediateDirectories: true)
+            if let h = try? FileHandle(forWritingTo: url) { h.seekToEndOfFile(); h.write(Data(line.utf8)); try? h.close() }
+            else { try? Data(line.utf8).write(to: url) }
+            return
+        }
         controller.start(profile: profile, timeout: model.s.timeout)
     }
 

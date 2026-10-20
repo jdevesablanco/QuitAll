@@ -43,7 +43,7 @@ Tres pasos cortos (selector ES/EN arriba a la derecha): qué hace QuitAll → qu
 | Barra de menús | Clic en ⏻ → **Cerrar todo**. Toca el icono de una app ahí para alternar cerrar → ocultar → dejar. Clic derecho en ⏻: menú rápido. |
 | Teclado | Atajo global, ⌃⌥⌘Q por defecto (*Ajustes → Lanzar*). No pide permiso de Accesibilidad. |
 | Menú Servicios | Menú de cualquier app → *Servicios* → **QuitAll: cerrar todo** (se instala desde la app). Le puedes dar su propio atajo en *Ajustes del Sistema → Teclado → Funciones rápidas → Servicios*. |
-| Dock | Arrastra QuitAll.app al Dock y elige *Ajustes → Lanzar → Al abrir QuitAll de nuevo → Cerrar todo*: un clic en el icono del Dock lo cierra todo. |
+| Spotlight, Launchpad, Dock | Basta con abrir QuitAll (⌘Espacio → «QuitAll» → ↩, o fíjala en el Dock y haz clic): al abrirla **ejecuta Cerrar todo** al momento. Nunca se dispara al iniciar sesión ni justo después de instalarla. ¿Prefieres ver el menú? *Ajustes → Lanzar → Al abrir QuitAll → Mostrar el menú*. |
 | URL | `open quitall://quit`, `open "quitall://quit?profile=Estudio"`, `open quitall://undo` |
 | App Atajos | *Abrir URL* con `quitall://quit`, o *Ejecutar script de shell* con `quitall quit` |
 | Terminal | `quitall quit` (ver abajo) |

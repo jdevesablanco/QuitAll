@@ -70,7 +70,7 @@ struct SettingsView: View {
                                          set: { $0 ? try? Integrations.installService() : Integrations.removeService(); model.objectWillChange.send() }))
                     .labelsHidden().toggleStyle(.switch)
             }
-            row(tr("Al abrir QuitAll de nuevo", "When QuitAll is opened again"), tr("Desde el Dock (si la añades), Spotlight o Launchpad.", "From the Dock (if you pin it), Spotlight or Launchpad.")) {
+            row(tr("Al abrir QuitAll", "When you open QuitAll"), tr("Desde Spotlight, Launchpad, el Dock (si la añades) o Finder. No se dispara al iniciar sesión.", "From Spotlight, Launchpad, the Dock (if you pin it) or Finder. Never fires at login.")) {
                 Picker("", selection: $model.s.reopenAction) {
                     Text(tr("Mostrar el menú", "Show the menu")).tag(ReopenAction.showMenu)
                     Text(tr("Cerrar todo", "Quit all")).tag(ReopenAction.quitAll)

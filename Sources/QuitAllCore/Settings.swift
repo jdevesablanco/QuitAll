@@ -76,7 +76,7 @@ public struct Hotkey: Codable, Equatable, Sendable {
     }
 }
 
-/// Qué hace la app cuando la abres otra vez (Dock, Spotlight, Launchpad) estando ya en marcha.
+/// Qué hace la app cuando la abres tú (Spotlight, Launchpad, Dock, Finder), esté o no ya en marcha.
 public enum ReopenAction: String, Codable, CaseIterable, Identifiable, Sendable {
     case showMenu, quitAll
     public var id: String { rawValue }
@@ -92,7 +92,7 @@ public struct Settings: Codable, Equatable, Sendable {
     public var timeout: Double = 8
     public var hotkeyEnabled: Bool = true
     public var hotkey: Hotkey = .default
-    public var reopenAction: ReopenAction = .showMenu
+    public var reopenAction: ReopenAction = .quitAll
     /// Categoría elegida a mano para una app (bundle ID → `AppCategory.rawValue`).
     public var categoryOverrides: [String: String] = [:]
     public var language: AppLanguage = .auto
@@ -134,7 +134,9 @@ public struct Settings: Codable, Equatable, Sendable {
     }
 
     enum Keys: String, CodingKey {
-        case profiles, activeProfileID, timeout, hotkeyEnabled, hotkey, reopenAction, categoryOverrides
+        // «openAction»: clave nueva (antes «reopenAction», que solo valía con la app ya abierta y por defecto mostraba el menú).
+        case reopenAction = "openAction"
+        case profiles, activeProfileID, timeout, hotkeyEnabled, hotkey, categoryOverrides
         case language, launchAtLogin, onboardingDone
     }
 }

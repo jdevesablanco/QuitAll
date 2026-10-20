@@ -9,9 +9,9 @@ mkdir -p "$W/root" "$W/scripts"
 cp -R build/QuitAll.app "$W/root/"
 cat > "$W/scripts/postinstall" <<'SH'
 #!/bin/bash
-# Abre la app como el usuario con la sesión iniciada (el instalador corre como root).
+# Abre la app como el usuario con la sesión iniciada (el instalador corre como root). --no-run: abrirla así no cierra nada.
 U="$(stat -f%Su /dev/console)"
-[ -n "$U" ] && [ "$U" != "root" ] && sudo -u "$U" open -a /Applications/QuitAll.app || true
+[ -n "$U" ] && [ "$U" != "root" ] && sudo -u "$U" open -a /Applications/QuitAll.app --args --no-run || true
 exit 0
 SH
 chmod +x "$W/scripts/postinstall"

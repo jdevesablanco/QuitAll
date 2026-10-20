@@ -167,8 +167,8 @@ struct OnboardingView: View {
             }
             VStack(alignment: .leading, spacing: 4) {
                 Label(tr("¿Y el clic derecho en el escritorio?", "What about right-clicking the desktop?"), systemImage: "info.circle").font(.callout.bold())
-                Text(tr("macOS no permite añadir opciones al menú del fondo del escritorio (ni con Acciones rápidas ni con extensiones de Finder, que además no funcionan si el Escritorio está en iCloud). Por eso QuitAll usa el atajo, la barra de menús y Servicios. Si fijas QuitAll en el Dock, puedes hacer que un clic cierre todo (Ajustes → Lanzar).",
-                        "macOS doesn't let apps add items to the desktop background menu (not with Quick Actions nor Finder extensions, which also fail when Desktop is in iCloud). So QuitAll uses the shortcut, the menu bar and Services. If you pin QuitAll to the Dock, you can make a click quit all (Settings → Launch)."))
+                Text(tr("macOS no permite añadir opciones al menú del fondo del escritorio (ni con Acciones rápidas ni con extensiones de Finder, que además no funcionan si el Escritorio está en iCloud). Por eso QuitAll usa el atajo, la barra de menús y Servicios. Y abrir QuitAll desde Spotlight o el Dock cierra todo al momento (se cambia en Ajustes → Lanzar).",
+                        "macOS doesn't let apps add items to the desktop background menu (not with Quick Actions nor Finder extensions, which also fail when Desktop is in iCloud). So QuitAll uses the shortcut, the menu bar and Services. And opening QuitAll from Spotlight or the Dock quits everything right away (change it in Settings → Launch)."))
                     .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
             .padding(10).background(RoundedRectangle(cornerRadius: 8).fill(Color.primary.opacity(0.05)))

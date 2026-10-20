@@ -183,7 +183,7 @@ do {
             let p = Process(); p.executableURL = URL(fileURLWithPath: lsr); p.arguments = ["-u", userCopy.path]; try? p.run(); p.waitUntilExit()
             try? fm.removeItem(at: userCopy)
         }
-        for (exe, a) in [(lsr, ["-f", dest.path]), ("/usr/bin/open", [dest.path])] {
+        for (exe, a) in [(lsr, ["-f", dest.path]), ("/usr/bin/open", [dest.path, "--args", "--no-run"])] {
             let p = Process(); p.executableURL = URL(fileURLWithPath: exe); p.arguments = a; try p.run(); p.waitUntilExit()
         }
         print(tr("QuitAll instalada en \(dest.path)", "QuitAll installed at \(dest.path)"))

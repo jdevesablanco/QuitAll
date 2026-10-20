@@ -43,7 +43,7 @@ Three short steps (ES/EN switch at the top right): what QuitAll does → which a
 | Menu bar | Click ⏻ → **Quit all**. Tap an app's icon there to cycle quit → hide → keep. Right-click ⏻ for a quick menu. |
 | Keyboard | Global shortcut, ⌃⌥⌘Q by default (*Settings → Launch*). No Accessibility permission needed. |
 | Services menu | Any app's menu → *Services* → **QuitAll: Quit all** (installed from the app). You can give it its own shortcut in *System Settings → Keyboard → Keyboard Shortcuts → Services*. |
-| Dock | Drag QuitAll.app to the Dock and set *Settings → Launch → When QuitAll is opened again → Quit all*: one click on the Dock icon quits everything. |
+| Spotlight, Launchpad, Dock | Just open QuitAll (⌘Space → “QuitAll” → ↩, or pin it to the Dock and click it): opening it **runs Quit all** right away. It never fires at login or right after installing. Prefer the menu instead? *Settings → Launch → When you open QuitAll → Show the menu*. |
 | URL | `open quitall://quit`, `open "quitall://quit?profile=Study"`, `open quitall://undo` |
 | Shortcuts app | *Open URLs* with `quitall://quit`, or *Run Shell Script* with `quitall quit` |
 | Terminal | `quitall quit` (see below) |

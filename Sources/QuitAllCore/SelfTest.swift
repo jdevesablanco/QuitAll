@@ -31,6 +31,8 @@ public enum SelfTest {
         check(back?.timeout == 60, "ajustes: tiempo de espera acotado")
         check((try? JSONDecoder().decode(Settings.self, from: Data("{}".utf8)))?.profiles.count == 1, "ajustes: JSON vacío → perfil por defecto")
         check(Hotkey.default.display == "⌃⌥⌘Q", "atajo por defecto")
+        let old = try? JSONDecoder().decode(Settings.self, from: Data(#"{"reopenAction":"showMenu"}"#.utf8))
+        check(old?.reopenAction == .quitAll, "abrir la app = cerrar todo (también con ajustes antiguos)")
 
         let plan = Planner.plan(profile: Profile(name: "Todo"))
         let finder = plan.first { $0.bundleID == "com.apple.finder" }
