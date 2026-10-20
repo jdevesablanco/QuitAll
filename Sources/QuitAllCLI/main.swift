@@ -157,7 +157,8 @@ do {
         print(String(data: try e.encode(s), encoding: .utf8)!)
     case "install":
         // El ejecutable real vive dentro de QuitAll.app/Contents/Resources/quitall (brew enlaza a él).
-        let u = URL(fileURLWithPath: CommandLine.arguments[0]).resolvingSymlinksInPath()
+        // argv[0] es solo «quitall» cuando se lanza desde el PATH: usamos la ruta real del ejecutable.
+        let u = (Bundle.main.executableURL ?? URL(fileURLWithPath: CommandLine.arguments[0])).resolvingSymlinksInPath()
         guard let r = u.path.range(of: ".app/") else { fail(tr("No encuentro QuitAll.app junto a este ejecutable (¿compilaste solo la CLI?)", "Can't find QuitAll.app next to this binary (did you build only the CLI?)")) }
         let appPath = String(u.path[..<r.lowerBound]) + ".app"
         // En /Applications: en macOS 27, Bartender no consigue colocar el icono de la barra de menús de las apps que se
