@@ -1,13 +1,13 @@
 cask "quitall" do
   version "1.0.0"
-  sha256 "REPLACE_WITH_DMG_SHA256"
+  sha256 "3765163f623ca85deaddf0085282a59dc4ecc301d865387e6f4f26b91423f1d4"
 
   url "https://github.com/jdevesablanco/QuitAll/releases/download/v#{version}/QuitAll-#{version}.dmg"
   name "QuitAll"
   desc "Quit every open app in one click, except the ones you pick"
   homepage "https://github.com/jdevesablanco/QuitAll"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "QuitAll.app"
   binary "#{appdir}/QuitAll.app/Contents/Resources/quitall"
