@@ -172,13 +172,6 @@ struct OnboardingView: View {
             option("power", tr("Abrir al iniciar sesión", "Open at login"), tr("Para que el atajo funcione desde que enciendes el Mac.", "So the shortcut works as soon as you log in.")) {
                 Toggle("", isOn: $model.s.launchAtLogin).labelsHidden().toggleStyle(.switch)
             }
-            VStack(alignment: .leading, spacing: 4) {
-                Label(tr("¿Y el clic derecho en el escritorio?", "What about right-clicking the desktop?"), systemImage: "info.circle").font(.callout.bold())
-                Text(tr("macOS no permite añadir opciones al menú del fondo del escritorio (ni con Acciones rápidas ni con extensiones de Finder, que además no funcionan si el Escritorio está en iCloud). Por eso QuitAll usa el atajo, la barra de menús y Servicios. Abrir QuitAll desde Spotlight o el Dock también cierra todo.",
-                        "macOS doesn't let apps add items to the desktop background menu (not with Quick Actions nor Finder extensions, which also fail when Desktop is in iCloud). So QuitAll uses the shortcut, the menu bar and Services. Opening QuitAll from Spotlight or the Dock quits everything too."))
-                    .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(10).background(RoundedRectangle(cornerRadius: 8).fill(Color.primary.opacity(0.05)))
         }
     }
 

@@ -49,15 +49,6 @@ Three short steps (ES/EN switch at the top right): what QuitAll does → which a
 | Shortcuts app | *Open URLs* with `quitall://quit`, or *Run Shell Script* with `quitall quit` |
 | Terminal | `quitall quit` (see below) |
 
-### What about right-clicking the desktop?
-
-Not possible, honestly. The menu you get by right-clicking the empty desktop belongs to Finder and macOS doesn't let other apps add items to it:
-
-- **Quick Actions / Services** only show up in Finder's context menu when *files are selected*; with nothing selected they're not offered there.
-- **Finder Sync extensions** can add items to a folder's background menu, but only for local folders they monitor, they need a sandboxed app extension built with Xcode, and they don't work at all in iCloud Drive / File Provider folders — which includes the Desktop when *Desktop & Documents* sync is on (we tested this with SplitExercises).
-
-So QuitAll uses the menu bar, a global shortcut, the Services menu, the Dock, Shortcuts and the `quitall://` URL scheme instead.
-
 ## Command line
 
 ```bash
@@ -94,7 +85,6 @@ Made by the same author, free and open source:
 | App | What it does | Status |
 |---|---|---|
 | [SplitExercises](https://github.com/jdevesablanco/SplitExercises) | Splits exercise PDFs into one sheet per exercise, from the right-click menu | Available |
-| RightYourClick | A better Finder right-click menu, with everything in one place | Coming soon |
 | **QuitAll** | Quits every app in one click, except the ones you pick | This app |
 
 The app shows the same cards (in the last setup screen and in *Settings → Pairs well with*), detects which ones you have and installs the rest with Homebrew or the latest `.pkg` from GitHub.

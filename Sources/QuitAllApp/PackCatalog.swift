@@ -1,6 +1,6 @@
 // PackCatalog.swift — catálogo, detección e instalación de las apps de la familia, y sus tarjetas.
 //
-// Este archivo es IDÉNTICO en SplitExercises, RightYourClick y QuitAll: si cambias algo, cópialo a las tres.
+// Este archivo es IDÉNTICO en todas las apps de la familia: si cambias algo, cópialo a todas.
 // No depende de nada de cada app (solo SwiftUI/AppKit). Cada app puede ajustar, al arrancar:
 //   PackCatalog.isSpanish = { … }     // idioma elegido en la app (por defecto, el del sistema)
 //   PackCatalog.accent = …            // color de acento (por defecto, el morado de la familia)
@@ -27,9 +27,6 @@ enum PackCatalog {
         PackApp(id: "io.github.jdevesablanco.SplitExercises", name: "SplitExercises", cask: "splitexercises", symbol: "rectangle.split.1x2",
                 es: "Divide PDFs de ejercicios en una hoja por ejercicio, con clic derecho.",
                 en: "Splits exercise PDFs into one sheet per exercise, from the right-click menu.", released: true),
-        PackApp(id: "com.jdevesablanco.rightyourclick", name: "RightYourClick", cask: "rightyourclick", symbol: "contextualmenu.and.cursorarrow",
-                es: "Un clic derecho mejorado para Finder, con todo en un solo sitio.",
-                en: "A better Finder right-click menu, with everything in one place.", released: false),
         PackApp(id: "com.jdevesablanco.quitall", name: "QuitAll", cask: "quitall", symbol: "power",
                 es: "Cierra todas las apps de un clic, menos las que elijas.",
                 en: "Quits every app in one click, except the ones you pick.", released: true),

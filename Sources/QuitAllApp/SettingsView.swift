@@ -86,8 +86,8 @@ struct SettingsView: View {
             row(tr("Abrir al iniciar sesión", "Open at login"), tr("Para que el atajo funcione siempre.", "So the shortcut always works.")) {
                 Toggle("", isOn: $model.s.launchAtLogin).labelsHidden().toggleStyle(.switch)
             }
-            Text(tr("También: open quitall://quit (o ?profile=Estudio), quitall://undo, y el comando `quitall` en Terminal o en Atajos («Ejecutar script de shell»). El clic derecho en el fondo del escritorio no se puede ampliar en macOS.",
-                    "Also: open quitall://quit (or ?profile=Study), quitall://undo, and the `quitall` command in Terminal or Shortcuts (“Run Shell Script”). The desktop background right-click menu can't be extended on macOS."))
+            Text(tr("También: open quitall://quit (o ?profile=Estudio), quitall://undo, y el comando `quitall` en Terminal o en Atajos («Ejecutar script de shell»).",
+                    "Also: open quitall://quit (or ?profile=Study), quitall://undo, and the `quitall` command in Terminal or Shortcuts (“Run Shell Script”)."))
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             Spacer()
             HStack {

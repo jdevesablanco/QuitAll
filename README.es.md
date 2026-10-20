@@ -49,15 +49,6 @@ Tres pasos cortos (selector ES/EN arriba a la derecha): qué hace QuitAll → qu
 | App Atajos | *Abrir URL* con `quitall://quit`, o *Ejecutar script de shell* con `quitall quit` |
 | Terminal | `quitall quit` (ver abajo) |
 
-### ¿Y el clic derecho en el escritorio?
-
-No se puede, siendo honestos. El menú que sale al hacer clic derecho en el fondo vacío del escritorio es de Finder y macOS no deja que otras apps le añadan opciones:
-
-- Las **Acciones rápidas / Servicios** solo aparecen en el menú contextual de Finder cuando hay *archivos seleccionados*; sin selección, no se ofrecen ahí.
-- Las **extensiones Finder Sync** pueden añadir opciones al fondo de una carpeta, pero solo en carpetas locales que vigilan, necesitan una extensión con sandbox compilada con Xcode y no funcionan en carpetas de iCloud Drive / File Provider, lo que incluye el Escritorio si tienes activado *Escritorio y Documentos* en iCloud (lo comprobamos con SplitExercises).
-
-Por eso QuitAll usa la barra de menús, un atajo global, el menú Servicios, el Dock, Atajos y el esquema `quitall://`.
-
 ## Línea de comandos
 
 ```bash
@@ -94,7 +85,6 @@ Del mismo autor, gratis y open source:
 | App | Qué hace | Estado |
 |---|---|---|
 | [SplitExercises](https://github.com/jdevesablanco/SplitExercises) | Divide PDFs de ejercicios en una hoja por ejercicio, con clic derecho | Disponible |
-| RightYourClick | Un clic derecho mejorado para Finder, con todo en un solo sitio | Próximamente |
 | **QuitAll** | Cierra todas las apps de un clic, menos las que elijas | Esta app |
 
 La app muestra las mismas tarjetas (en la última pantalla de bienvenida y en *Ajustes → Combina bien con*), detecta cuáles tienes e instala las demás con Homebrew o con el último `.pkg` de GitHub.
