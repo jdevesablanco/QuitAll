@@ -2,7 +2,7 @@ class Quitall < Formula
   desc "Quit every open app in one click, except the ones you pick (macOS menu bar app + CLI)"
   homepage "https://github.com/jdevesablanco/QuitAll"
   url "https://github.com/jdevesablanco/QuitAll/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "b18046f5122691385519a38b843238751763bdfe4fc0665f2112f75a2cbf7c7f"
+  sha256 "5c0b4f2a9bf5b75002837a3144dba97076900ed6866d453669be9f0b37bdb71c"
   license "MIT"
   head "https://github.com/jdevesablanco/QuitAll.git", branch: "main"
 

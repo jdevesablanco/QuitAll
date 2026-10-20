@@ -1,6 +1,6 @@
 cask "quitall" do
   version "1.0.1"
-  sha256 "3765163f623ca85deaddf0085282a59dc4ecc301d865387e6f4f26b91423f1d4"
+  sha256 "316e4e6a2ddf04901f9945de511be86cf50d1c032d9108799bc3510f296db63b"
 
   url "https://github.com/jdevesablanco/QuitAll/releases/download/v#{version}/QuitAll-#{version}.dmg"
   name "QuitAll"
